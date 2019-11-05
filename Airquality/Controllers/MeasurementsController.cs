@@ -20,6 +20,10 @@ namespace Airquality.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.ResultSortParm = sortOrder == "Result" ? "result_desc" : "Result";
+            ViewBag.CompoundSortParm = sortOrder == "Compound" ? "compound_desc" : "Compound";
+            ViewBag.CodeSortParm = sortOrder == "Code" ? "code_desc" : "Code";
+            ViewBag.UnitSortParm = sortOrder == "Unit" ? "unit_desc" : "Unit";
 
             if (searchString != null)
             {
@@ -37,7 +41,9 @@ namespace Airquality.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 measurements = measurements.Where(s => s.Compounds.StofNavn.Contains(searchString)
-                                               || s.Instruments.Stations.Navn.Contains(searchString));
+                                               || s.Instruments.Stations.Navn.Contains(searchString)
+                                               || s.Units.Navn.Contains(searchString)
+                                               || s.Instruments.Kode.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -49,6 +55,30 @@ namespace Airquality.Controllers
                     break;
                 case "date_desc":
                     measurements = measurements.OrderByDescending(s => s.DatoMaerke);
+                    break;
+                case "Result":
+                    measurements = measurements.OrderBy(s => s.Resultat);
+                    break;
+                case "result_desc":
+                    measurements = measurements.OrderByDescending(s => s.Resultat);
+                    break;
+                case "Compound":
+                    measurements = measurements.OrderBy(s => s.Compounds.StofNavn);
+                    break;
+                case "compound_desc":
+                    measurements = measurements.OrderByDescending(s => s.Compounds.StofNavn);
+                    break;
+                case "Code":
+                    measurements = measurements.OrderBy(s => s.Instruments.Kode);
+                    break;
+                case "code_desc":
+                    measurements = measurements.OrderByDescending(s => s.Instruments.Kode);
+                    break;
+                case "Unit":
+                    measurements = measurements.OrderBy(s => s.Units.Navn);
+                    break;
+                case "unit_desc":
+                    measurements = measurements.OrderByDescending(s => s.Units.Navn);
                     break;
                 default:
                     measurements = measurements.OrderBy(s => s.Id);
@@ -95,6 +125,20 @@ namespace Airquality.Controllers
 
                 return File(ms.ToArray(), "image/bytes");
             }
+        }
+
+        public ActionResult OldChart()
+        {
+            var result = db.Measurements.GroupBy(x => x.Compounds.StofNavn, x => x.Resultat, (key, m) => new { StofId = key, TotalResult = m.Average() });
+
+            var chart = new System.Web.Helpers.Chart(width: 800, height: 400)
+                .AddTitle("Measurements chart")
+                .AddSeries("default", chartType: "column",
+                    xValue: result.Select(x => x.StofId), xField: "Stof",
+                    yValues: result.Select(x => x.TotalResult).Where(x => x < 50), yFields: "Results")
+                .GetBytes("png");
+
+            return File(chart, "image/bytes");
         }
 
         // GET: Measurements/Details/5

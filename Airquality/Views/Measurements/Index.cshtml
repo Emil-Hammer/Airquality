@@ -1,7 +1,7 @@
 ﻿@using System.Web.UI.WebControls
 @model PagedList.IPagedList<Airquality.Models.Measurements>
 @using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -9,6 +9,7 @@
 
 <p>
     <img src="@Url.Action("CreateLineChart")" alt="Line Chart using MVC" />
+    <img src="@Url.Action("OldChart")" alt="Line Chart using MVC" />
 </p>
 
 <h2>Index</h2>
@@ -31,19 +32,19 @@
             @Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurentFiler })
         </th>
         <th>
-            @Html.ActionLink("DatoMaerke", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurentFiler })
+            @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurentFiler })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Id)
+            @Html.ActionLink("Result", "Index", new { sortOrder = ViewBag.ResultSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Compounds.StofNavn)
+            @Html.ActionLink("Compound", "Index", new { sortOrder = ViewBag.CompoundSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Instruments.Kode)
+            @Html.ActionLink("Code", "Index", new { sortOrder = ViewBag.CodeSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Units.Navn)
+            @Html.ActionLink("Unit", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
@@ -82,4 +83,4 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
