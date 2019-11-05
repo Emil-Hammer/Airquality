@@ -1,0 +1,42 @@
+﻿@model Airquality.Models.Instruments
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Instruments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Kode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Equipments.Navn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equipments.Navn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stations.Navn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stations.Navn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OpstillingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

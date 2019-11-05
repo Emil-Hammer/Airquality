@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Airquality.Models.Instruments>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Kode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equipments.Navn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stations.Navn)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equipments.Navn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stations.Navn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.OpstillingId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OpstillingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OpstillingId })
+        </td>
+    </tr>
+}
+
+</table>

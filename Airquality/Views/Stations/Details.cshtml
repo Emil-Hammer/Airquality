@@ -1,0 +1,42 @@
+﻿@model Airquality.Models.Stations
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Stations</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Navn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Navn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Akronym)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Akronym)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UTM.GeometriId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UTM.GeometriId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaaleStedId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

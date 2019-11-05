@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Compounds">
+          <Key>
+            <PropertyRef Name="StofId" />
+          </Key>
+          <Property Name="StofId" Type="int" Nullable="false" />
+          <Property Name="StofNavn" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Equipments">
+          <Key>
+            <PropertyRef Name="UdstyrId" />
+          </Key>
+          <Property Name="UdstyrId" Type="int" Nullable="false" />
+          <Property Name="Navn" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Instruments">
+          <Key>
+            <PropertyRef Name="OpstillingId" />
+          </Key>
+          <Property Name="OpstillingId" Type="int" Nullable="false" />
+          <Property Name="Kode" Type="nvarchar" MaxLength="200" />
+          <Property Name="MaalestedId" Type="int" />
+          <Property Name="UdstyrId" Type="int" />
+        </EntityType>
+        <EntityType Name="Measurements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DatoMaerke" Type="datetime" />
+          <Property Name="OpstillingsId" Type="int" />
+          <Property Name="Resultat" Type="float" />
+          <Property Name="EnhedId" Type="int" />
+          <Property Name="StofId" Type="int" />
+        </EntityType>
+        <EntityType Name="Stations">
+          <Key>
+            <PropertyRef Name="MaaleStedId" />
+          </Key>
+          <Property Name="MaaleStedId" Type="int" Nullable="false" />
+          <Property Name="Navn" Type="nvarchar" MaxLength="200" />
+          <Property Name="Akronym" Type="nvarchar" MaxLength="200" />
+          <Property Name="GeometriId" Type="int" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="EnhedId" />
+          </Key>
+          <Property Name="EnhedId" Type="int" Nullable="false" />
+          <Property Name="Navn" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="UTM">
+          <Key>
+            <PropertyRef Name="GeometriId" />
+          </Key>
+          <Property Name="GeometriId" Type="int" Nullable="false" />
+          <Property Name="UTMX" Type="int" />
+          <Property Name="UTMY" Type="int" />
+          <Property Name="UTMZone" Type="int" />
+        </EntityType>
+        <Association Name="FK__Instrumen__Maale__3E52440B">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="0..1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="MaaleStedId" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MaalestedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Instrumen__Udsty__3F466844">
+          <End Role="Equipments" Type="Self.Equipments" Multiplicity="0..1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipments">
+              <PropertyRef Name="UdstyrId" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="UdstyrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Measureme__Enhed__46E78A0C">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="EnhedId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="EnhedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Measureme__Opsti__45F365D3">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="OpstillingId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="OpstillingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Measureme__StofI__47DBAE45">
+          <End Role="Compounds" Type="Self.Compounds" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compounds">
+              <PropertyRef Name="StofId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="StofId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stations__Geomet__3B75D760">
+          <End Role="UTM" Type="Self.UTM" Multiplicity="0..1" />
+          <End Role="Stations" Type="Self.Stations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTM">
+              <PropertyRef Name="GeometriId" />
+            </Principal>
+            <Dependent Role="Stations">
+              <PropertyRef Name="GeometriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelsStoreContainer">
+          <EntitySet Name="Compounds" EntityType="Self.Compounds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Instruments" EntityType="Self.Instruments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Measurements" EntityType="Self.Measurements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stations" EntityType="Self.Stations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UTM" EntityType="Self.UTM" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Instrumen__Maale__3E52440B" Association="Self.FK__Instrumen__Maale__3E52440B">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Instrumen__Udsty__3F466844" Association="Self.FK__Instrumen__Udsty__3F466844">
+            <End Role="Equipments" EntitySet="Equipments" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Measureme__Enhed__46E78A0C" Association="Self.FK__Measureme__Enhed__46E78A0C">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Measureme__Opsti__45F365D3" Association="Self.FK__Measureme__Opsti__45F365D3">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Measureme__StofI__47DBAE45" Association="Self.FK__Measureme__StofI__47DBAE45">
+            <End Role="Compounds" EntitySet="Compounds" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stations__Geomet__3B75D760" Association="Self.FK__Stations__Geomet__3B75D760">
+            <End Role="UTM" EntitySet="UTM" />
+            <End Role="Stations" EntitySet="Stations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Compounds">
+          <Key>
+            <PropertyRef Name="StofId" />
+          </Key>
+          <Property Name="StofId" Type="Int32" Nullable="false" />
+          <Property Name="StofNavn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Measurements" Relationship="Self.FK__Measureme__StofI__47DBAE45" FromRole="Compounds" ToRole="Measurements" />
+        </EntityType>
+        <EntityType Name="Equipments">
+          <Key>
+            <PropertyRef Name="UdstyrId" />
+          </Key>
+          <Property Name="UdstyrId" Type="Int32" Nullable="false" />
+          <Property Name="Navn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK__Instrumen__Udsty__3F466844" FromRole="Equipments" ToRole="Instruments" />
+        </EntityType>
+        <EntityType Name="Instruments">
+          <Key>
+            <PropertyRef Name="OpstillingId" />
+          </Key>
+          <Property Name="OpstillingId" Type="Int32" Nullable="false" />
+          <Property Name="Kode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MaalestedId" Type="Int32" />
+          <Property Name="UdstyrId" Type="Int32" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK__Instrumen__Udsty__3F466844" FromRole="Instruments" ToRole="Equipments" />
+          <NavigationProperty Name="Stations" Relationship="Self.FK__Instrumen__Maale__3E52440B" FromRole="Instruments" ToRole="Stations" />
+          <NavigationProperty Name="Measurements" Relationship="Self.FK__Measureme__Opsti__45F365D3" FromRole="Instruments" ToRole="Measurements" />
+        </EntityType>
+        <EntityType Name="Measurements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DatoMaerke" Type="DateTime" Precision="3" />
+          <Property Name="OpstillingsId" Type="Int32" />
+          <Property Name="Resultat" Type="Double" />
+          <Property Name="EnhedId" Type="Int32" />
+          <Property Name="StofId" Type="Int32" />
+          <NavigationProperty Name="Compounds" Relationship="Self.FK__Measureme__StofI__47DBAE45" FromRole="Measurements" ToRole="Compounds" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK__Measureme__Opsti__45F365D3" FromRole="Measurements" ToRole="Instruments" />
+          <NavigationProperty Name="Units" Relationship="Self.FK__Measureme__Enhed__46E78A0C" FromRole="Measurements" ToRole="Units" />
+        </EntityType>
+        <EntityType Name="Stations">
+          <Key>
+            <PropertyRef Name="MaaleStedId" />
+          </Key>
+          <Property Name="MaaleStedId" Type="Int32" Nullable="false" />
+          <Property Name="Navn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Akronym" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="GeometriId" Type="Int32" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK__Instrumen__Maale__3E52440B" FromRole="Stations" ToRole="Instruments" />
+          <NavigationProperty Name="UTM" Relationship="Self.FK__Stations__Geomet__3B75D760" FromRole="Stations" ToRole="UTM" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="EnhedId" />
+          </Key>
+          <Property Name="EnhedId" Type="Int32" Nullable="false" />
+          <Property Name="Navn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Measurements" Relationship="Self.FK__Measureme__Enhed__46E78A0C" FromRole="Units" ToRole="Measurements" />
+        </EntityType>
+        <EntityType Name="UTM">
+          <Key>
+            <PropertyRef Name="GeometriId" />
+          </Key>
+          <Property Name="GeometriId" Type="Int32" Nullable="false" />
+          <Property Name="UTMX" Type="Int32" />
+          <Property Name="UTMY" Type="Int32" />
+          <Property Name="UTMZone" Type="Int32" />
+          <NavigationProperty Name="Stations" Relationship="Self.FK__Stations__Geomet__3B75D760" FromRole="UTM" ToRole="Stations" />
+        </EntityType>
+        <Association Name="FK__Measureme__StofI__47DBAE45">
+          <End Role="Compounds" Type="Self.Compounds" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compounds">
+              <PropertyRef Name="StofId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="StofId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Instrumen__Udsty__3F466844">
+          <End Role="Equipments" Type="Self.Equipments" Multiplicity="0..1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipments">
+              <PropertyRef Name="UdstyrId" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="UdstyrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Instrumen__Maale__3E52440B">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="0..1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="MaaleStedId" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MaalestedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Measureme__Opsti__45F365D3">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="OpstillingId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="OpstillingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Measureme__Enhed__46E78A0C">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Measurements" Type="Self.Measurements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="EnhedId" />
+            </Principal>
+            <Dependent Role="Measurements">
+              <PropertyRef Name="EnhedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stations__Geomet__3B75D760">
+          <End Role="UTM" Type="Self.UTM" Multiplicity="0..1" />
+          <End Role="Stations" Type="Self.Stations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTM">
+              <PropertyRef Name="GeometriId" />
+            </Principal>
+            <Dependent Role="Stations">
+              <PropertyRef Name="GeometriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Compounds" EntityType="Self.Compounds" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipments" />
+          <EntitySet Name="Instruments" EntityType="Self.Instruments" />
+          <EntitySet Name="Measurements" EntityType="Self.Measurements" />
+          <EntitySet Name="Stations" EntityType="Self.Stations" />
+          <EntitySet Name="Units" EntityType="Self.Units" />
+          <EntitySet Name="UTM" EntityType="Self.UTM" />
+          <AssociationSet Name="FK__Measureme__StofI__47DBAE45" Association="Self.FK__Measureme__StofI__47DBAE45">
+            <End Role="Compounds" EntitySet="Compounds" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Instrumen__Udsty__3F466844" Association="Self.FK__Instrumen__Udsty__3F466844">
+            <End Role="Equipments" EntitySet="Equipments" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Instrumen__Maale__3E52440B" Association="Self.FK__Instrumen__Maale__3E52440B">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Measureme__Opsti__45F365D3" Association="Self.FK__Measureme__Opsti__45F365D3">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Measureme__Enhed__46E78A0C" Association="Self.FK__Measureme__Enhed__46E78A0C">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Measurements" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stations__Geomet__3B75D760" Association="Self.FK__Stations__Geomet__3B75D760">
+            <End Role="UTM" EntitySet="UTM" />
+            <End Role="Stations" EntitySet="Stations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelsStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Compounds">
+            <EntityTypeMapping TypeName="Models.Compounds">
+              <MappingFragment StoreEntitySet="Compounds">
+                <ScalarProperty Name="StofId" ColumnName="StofId" />
+                <ScalarProperty Name="StofNavn" ColumnName="StofNavn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="Models.Equipments">
+              <MappingFragment StoreEntitySet="Equipments">
+                <ScalarProperty Name="UdstyrId" ColumnName="UdstyrId" />
+                <ScalarProperty Name="Navn" ColumnName="Navn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Instruments">
+            <EntityTypeMapping TypeName="Models.Instruments">
+              <MappingFragment StoreEntitySet="Instruments">
+                <ScalarProperty Name="OpstillingId" ColumnName="OpstillingId" />
+                <ScalarProperty Name="Kode" ColumnName="Kode" />
+                <ScalarProperty Name="MaalestedId" ColumnName="MaalestedId" />
+                <ScalarProperty Name="UdstyrId" ColumnName="UdstyrId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Measurements">
+            <EntityTypeMapping TypeName="Models.Measurements">
+              <MappingFragment StoreEntitySet="Measurements">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DatoMaerke" ColumnName="DatoMaerke" />
+                <ScalarProperty Name="OpstillingsId" ColumnName="OpstillingsId" />
+                <ScalarProperty Name="Resultat" ColumnName="Resultat" />
+                <ScalarProperty Name="EnhedId" ColumnName="EnhedId" />
+                <ScalarProperty Name="StofId" ColumnName="StofId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="Models.Stations">
+              <MappingFragment StoreEntitySet="Stations">
+                <ScalarProperty Name="MaaleStedId" ColumnName="MaaleStedId" />
+                <ScalarProperty Name="Navn" ColumnName="Navn" />
+                <ScalarProperty Name="Akronym" ColumnName="Akronym" />
+                <ScalarProperty Name="GeometriId" ColumnName="GeometriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="Models.Units">
+              <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="EnhedId" ColumnName="EnhedId" />
+                <ScalarProperty Name="Navn" ColumnName="Navn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UTM">
+            <EntityTypeMapping TypeName="Models.UTM">
+              <MappingFragment StoreEntitySet="UTM">
+                <ScalarProperty Name="GeometriId" ColumnName="GeometriId" />
+                <ScalarProperty Name="UTMX" ColumnName="UTMX" />
+                <ScalarProperty Name="UTMY" ColumnName="UTMY" />
+                <ScalarProperty Name="UTMZone" ColumnName="UTMZone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

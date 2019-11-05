@@ -1,0 +1,42 @@
+﻿@model Airquality.Models.UTM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UTM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UTMX)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UTMX)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UTMY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UTMY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UTMZone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UTMZone)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GeometriId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

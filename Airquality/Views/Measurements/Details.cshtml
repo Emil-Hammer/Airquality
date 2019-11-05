@@ -1,0 +1,58 @@
+﻿@model Airquality.Models.Measurements
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Measurements</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DatoMaerke)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatoMaerke)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resultat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resultat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Compounds.StofNavn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Compounds.StofNavn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Instruments.Kode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instruments.Kode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Units.Navn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Units.Navn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

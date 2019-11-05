@@ -1,0 +1,64 @@
+﻿@model Airquality.Models.Measurements
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Measurements</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DatoMaerke)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatoMaerke)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resultat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resultat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Compounds.StofNavn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Compounds.StofNavn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Instruments.Kode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instruments.Kode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Units.Navn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Units.Navn)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
